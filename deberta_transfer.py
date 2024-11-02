@@ -22,8 +22,8 @@ np.random.seed(seed)
 torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 
-train_file_path = 'thesis-codebase/data/env_train.tsv'
-val_file_path = 'thesis-codebase/data/env_dev.tsv'
+train_file_path = 'thesis-codebase/data/nlp4if_train.tsv'
+val_file_path = 'thesis-codebase/data/nlp4if_dev.tsv'
 test_file_path = 'thesis-codebase/data/cw_diabetes_test.tsv'
 
 train_filename = os.path.basename(train_file_path)

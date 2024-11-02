@@ -22,8 +22,8 @@ np.random.seed(seed)
 torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 
-train_file_path = 'thesis-codebase/data/env_train.tsv'
-val_file_path = 'thesis-codebase/data/env_dev.tsv'
+train_file_path = 'thesis-codebase/data/cw_diabetes_train.tsv'
+val_file_path = 'thesis-codebase/data/cw_diabetes_dev.tsv'
 test_file_path = 'thesis-codebase/data/cw_diabetes_test.tsv'
 
 train_filename = os.path.basename(train_file_path)
@@ -43,6 +43,21 @@ label_encoder = LabelEncoder()
 train_data['label'] = label_encoder.fit_transform(train_data['label'])
 val_data['label'] = label_encoder.fit_transform(val_data['label'])
 test_data['label'] = label_encoder.fit_transform(test_data['label'])
+
+# Check class distribution in the datasets
+def check_class_distribution(data, dataset_name):
+    class_counts = data['label'].value_counts()
+    total = len(data)
+    print(f"\nClass distribution for {dataset_name} dataset:")
+    for label, count in class_counts.items():
+        percentage = (count / total) * 100
+        print(f"Label {label}: {count} instances ({percentage:.2f}%)")
+    return class_counts
+
+# Check class distribution for train, validation, and test datasets
+train_class_distribution = check_class_distribution(train_data, "Training")
+val_class_distribution = check_class_distribution(val_data, "Validation")
+test_class_distribution = check_class_distribution(test_data, "Test")
 
 # Tokenizer initialization
 tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
@@ -100,7 +115,7 @@ trainer = Trainer(
     eval_dataset=val_dataset, 
     compute_metrics=compute_metrics,
     tokenizer=tokenizer,
-    callbacks=[EarlyStoppingCallback(early_stopping_patience=10)]  # Early stopping with patience of 10 epochs
+    # callbacks=[EarlyStoppingCallback(early_stopping_patience=10)]  # Early stopping with patience of 10 epochs
 )
 
 # Train the model
