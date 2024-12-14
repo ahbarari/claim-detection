@@ -120,6 +120,9 @@ class AdapterTransformerModel:
         elif len(task_names) == 4:
             model.active_adapters = ac.Fuse(task_names[0], task_names[1], task_names[2], task_names[3])
             fusion_name = ac.Fuse(task_names[0], task_names[1], task_names[2], task_names[3])
+        elif len(task_names) == 5:
+            model.active_adapters = ac.Fuse(task_names[0], task_names[1], task_names[2], task_names[3], task_names[4])
+            fusion_name = ac.Fuse(task_names[0], task_names[1], task_names[2], task_names[3], task_names[4])
 
         model.train_adapter(task_names)
 
